@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "G6E/oc2t4gu9iLCREtDeClVFSNY/iYTQQTReznz77Nw=",
+  "Hash": "fYxqQdT2JhjF5Iy/8bhwYMIuYR/z/kxHGMwV9Am8UvQ=",
   "Source": "agian",
   "BasePath": "_content/agian",
   "Mode": "Default",
@@ -83,6 +83,23 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\favicon.ico"
+    },
+    {
+      "Identity": "C:\\Users\\bspld\\source\\repos\\agian\\agian\\wwwroot\\img\\davies-designs-studio-q0VuRJvlOq4-unsplash.jpg",
+      "SourceId": "agian",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\bspld\\source\\repos\\agian\\agian\\wwwroot\\",
+      "BasePath": "_content/agian",
+      "RelativePath": "img/davies-designs-studio-q0VuRJvlOq4-unsplash.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\img\\davies-designs-studio-q0VuRJvlOq4-unsplash.jpg"
     },
     {
       "Identity": "C:\\Users\\bspld\\source\\repos\\agian\\agian\\wwwroot\\js\\site.js",

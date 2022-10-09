@@ -1,6 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Data.SqlClient;
+using System.Net.Mail;
+using System.Net;
+
 namespace agian.Pages
 {
     public class IndexModel : PageModel
@@ -88,6 +91,30 @@ namespace agian.Pages
             SqlCommand sc = new SqlCommand(sqlQuery, con);
             sc.ExecuteNonQuery();
             con.Close();
+            string fullName = FN + " " + LN;
+            string Message = "Thank you for Showing your interest" + FN + " " + LN;
+            SendMail(fullName, email, Message);
+
+        }
+        public bool SendMail(string name, string email, string Message)
+        {
+            MailMessage message = new MailMessage();
+            SmtpClient smtpClient = new SmtpClient();
+            message.From = new MailAddress("noreply@zebit.tech");
+            message.To.Add("rishabh.sharma13@outlook.com");
+            message.Subject = "Test email";
+            message.IsBodyHtml = true;
+            message.Body = "<h1>" + name + "</h1>";
+
+            smtpClient.Port = 587;
+            smtpClient.Host = "smtp.office365.com";
+            smtpClient.EnableSsl = true;
+            smtpClient.UseDefaultCredentials = false;
+            smtpClient.Credentials = new NetworkCredential("rishabh.sharma13@outlook.com", "R8770300675s");
+            smtpClient.DeliveryMethod = SmtpDeliveryMethod.Network;
+            
+            smtpClient.Send(message);
+            return true;
 
 
         }

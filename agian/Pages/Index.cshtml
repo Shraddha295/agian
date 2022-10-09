@@ -3,32 +3,60 @@
 @{
     ViewData["Title"] = "Home page";
 }
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<style>
+    .select2-container .select2-search--inline .select2-search__field {
+        font-size: 14px;
+    }
+
+    .select2-container--default .select2-selection--multiple .select2-selection__choice{
+    background-color: #e4e4e4;
+    display: inline-block;
+    margin-left: 5px;
+    margin-top: 5px;
+    padding: 0;
+    padding-left: 20px;
+    position: relative;
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    vertical-align: bottom;
+    }
+
+   .textbox{
+    border:2px solid red;
+    }
+</style>
 
 <div class="main">
+
     <div class="register">
-        <h3>Registration Form</h3>
+        <h3>
+            Registration Form
+        </h3>
+
         <form id="register" method="post">
             <table>
                 <tr>
-                    <td>First Name:</td>
+                    <td class="required">First Name:</td>
                     <td style="width:50px"></td>
-                    <td>Last Name:</td>
+                    <td class="required">Last Name:</td>
                 </tr>
                 <tr>
-                    <td><input type="text" id="name" name="FirstName" placeholder="Enter Your First Name" /></td>
+                    <td><input class="bordernone" type="text" autocomplete="off" id="firstname" name="FirstName" placeholder="Enter Your First Name" /></td>
                     <td style="width:50px"></td>
-                    <td><input type="text" id="name" name="LastName" placeholder="Enter Your Last Name" /></td>
+                    <td><input type="text" class="bordernone" autocomplete="off" id="lastName" name="LastName" placeholder="Enter Your Last Name" required /></td>
                 </tr>
                 <tr style="height:30px"></tr>
                 <tr>
-                    <td>Email:</td>
+                    <td class="required">Email:</td>
                     <td style="width:50px"></td>
-                    <td>Mobile Number:</td>
+                    <td class="required">Mobile Number:</td>
                 </tr>
                 <tr>
-                    <td><input type="email" id="email" name="Email" placeholder="Enter Your Valid Email" /></td>
+                    <td><input type="email" class="bordernone" id="email" name="Email" placeholder="Enter Your Valid Email" required /></td>
                     <td style="width:50px"></td>
-                    <td><input type="number" id="number" name="PhoneNo" placeholder="Enter Your Contact Number" /></td>
+                    <td><input type="number" class="bordernone" max="12" id="PhoneNo" name="PhoneNo" placeholder="Enter Your Contact Number" pattern="/^-?\d+\.?\d*$/" onKeyPress="if(this.value.length==11) return false;" required /></td>
                 </tr>
                 <tr style="height:30px"></tr>
                 <tr>
@@ -39,7 +67,14 @@
                 <tr>
                     <td><input type="date" id="dob" name="DOB" placeholder="Enter Your Date Of Birth" /></td>
                     <td style="width:50px"></td>
-                    <td><input type="text" id="gender" name="Gender" placeholder="Enter Your Gender" /></td>
+                    <td>
+                        <input list="Gender" id="gender" name="gender" placeholder="Enter Your Gender">
+                        <datalist id="Gender">
+                            <option value="Male" />
+                            <option value="Female" />
+                            <option value="Other" />
+                        </datalist>
+                    </td>
                 </tr>
                 <tr style="height:30px"></tr>
                 <tr>
@@ -50,18 +85,25 @@
                 <tr>
                     <td><input type="text" id="city" name="City" placeholder="Enter Your City" /></td>
                     <td style="width:50px"></td>
-                    <td><input type="number" id="pincode" name="Pincode" placeholder="Enter Your Pincode" /></td>
+
+                    <td><input type="number" id="pincode" max="6" name="Pincode" placeholder="Enter Your Pincode" pattern="/^-?\d+\.?\d*$/" onKeyPress="if(this.value.length==6) return false;" /></td>
                 </tr>
                 <tr style="height:30px"></tr>
                 <tr>
                     <td>Current Address:</td>
                     <td style="width:50px"></td>
                     <td>Permanent Address:</td>
+
                 </tr>
                 <tr>
                     <td><input type="text" id="address" name="Address" placeholder="Enter Your Current Address" /></td>
                     <td style="width:50px"></td>
                     <td><input type="text" id="addressp" name="AddressP" placeholder="Enter Your Permanent Address" /></td>
+                </tr>
+                <tr style="font-size:10px">
+                    <td>
+                        <input type="checkbox" class="vehicl" id="vehicle1" name="vehicle1" value="Bike" onclick="toggleThe()">Check it if your Current Address and Permanent Address is same
+                    </td>
                 </tr>
                 <tr style="height:30px"></tr>
             </table>
@@ -76,33 +118,71 @@
                             <table>
                                 <tr style="height:10px"></tr>
                                 <tr>
-                                    <td>Institute Name</td>
+                                    <td class="required">Institute Name</td>
                                     <td style="width:50px"></td>
                                     <td>Year</td>
                                 </tr>
                                 <tr>
                                     <td><input type="text" id="institue" name="Institute" placeholder="Enter Your Institute/College Name" /></td>
                                     <td style="width:50px"></td>
-                                    <td><input type="number" id="year" name="Year" placeholder="Enter In Which Year You Are" /></td>
+                                    <td>
+                                        <input list="Year" id="year" name="year" placeholder="Enter In Which Year You Are">
+                                        <datalist id="Year">
+                                            <option value="1st" />
+                                            <option value="2nd" />
+                                            <option value="3rd" />
+                                            <option value="4th" />
+                                        </datalist>
+                                    </td>
                                 </tr>
                                 <tr style="height:10px"></tr>
                                 <tr>
                                     <td>Training Type</td>
                                     <td style="width:50px"></td>
-                                    <td>Duration</td>
+                                    <td class="required">Duration</td>
                                 </tr>
                                 <tr>
-                                    <td><input type="text" id="type" name="Field" placeholder="Enter Your Field Of Training" /></td>
+
+                                   @* <td>
+                                        <input list="Field" id="field" name="field" placeholder="Enter Your Field Of Training" >
+                                        <datalist id="Field">
+                                            <option value="Web Development" />
+                                            <option value="App development" />
+                                            <option value="C# /.net" />
+                                            <option value="MVC" />
+                                        </datalist>
+                                    </td>*@
                                     <td style="width:50px"></td>
-                                    <td><input type="number" id="duration" name="Duration" placeholder="Enter Durtaion Of Your Training Period" /></td>
+                                    @*<td>
+                                        <input list="Duration" id="duration" name="duration" placeholder="Enter Durtaion Of Your Training Period" >
+                                        <datalist id="Duration">
+                                            <option value="3 months" />
+                                            <option value="5 months" />
+                                            <option value="6 months" />
+                                            <option value="8 months" />
+                                        </datalist>
+                                    </td>*@
                                 </tr>
                                 <tr style="height:10px"></tr>
                                 <tr>
-                                    <td>Skills</td>
+                                    <td class="required">Skills</td>
+                                    <td style="width:50px"></td>
                                 </tr>
-
                                 <tr>
-                                    <td><input type="text" id="skills" name="Skills" placeholder="Enter Your skills" /></td>
+                                    <td>
+                                        <select style="font-size:14px" class="js-example-placeholder-multiple form-control bordernone" id="selectSkillsId" name="skills[]" multiple="multiple" >
+                                            <option value="C">C language</option>
+                                            <option value="C++">C++</option>
+                                            <option value="Asp.net/.net core">Asp.net/.net core</option>
+                                            <option value="Creativity">Creativity</option>
+                                            <option value=" Communication">Communication</option>
+                                            <option value="Time management">Time management</option>
+                                            <option value="Teamwork & cooperation">Teamwork & cooperation</option>
+                                            <option value="Analysis">Analysis</option>
+                                            <option value="Testing">Testing</option>
+                                        </select>
+                                        
+                                    <td style="width:50px"></td>
                                 </tr>
                             </table>
                         </div>
@@ -120,18 +200,49 @@
                                 <tr>
                                     <td><input type="text" id="institue" name="Institute" placeholder="Enter Your Institute/College Name" /></td>
                                     <td style="width:50px"></td>
-                                    <td><input type="number" id="year" name="Year" placeholder="Enter In Which Year You Are" /></td>
+                                    <td>
+                                        <input list="Year" id="year" name="year" placeholder="Enter In Which Year You Are">
+                                        <datalist id="Year">
+                                            <option value="1st" />
+                                            <option value="2nd" />
+                                            <option value="3rd" />
+                                            <option value="4th" />
+                                        </datalist>
+                                    </td>
                                 </tr>
                                 <tr style="height:10px"></tr>
                                 <tr>
                                     <td>Major</td>
                                     <td style="width:50px"></td>
-                                    <td>Skills</td>
+                                    <td class="required">Skills</td>
                                 </tr>
                                 <tr>
-                                    <td><input type="text" id="major" name="Major" placeholder="Enter Your Major" /></td>
+                                    <td>
+                                        <input list="Major" id="major" name="major" placeholder="Enter In Which Year You Are">
+                                        <datalist id="Major">
+                                            <option value="IT" />
+                                            <option value="CSE" />
+                                            <option value="Civil" />
+                                            <option value="Mechanical" />
+                                        </datalist>
+                                    </td>
                                     <td style="width:50px"></td>
-                                    <td><input type="text" id="skills" name="Skills" placeholder="Enter Your Skills" /></td>
+                                    <td>
+                                        <input list="Skills" id="skills" name="skills" placeholder="Enter Your Skills">
+                                        <datalist id="Skills">
+                                            <option value="C" />
+                                            <option value="C++" />
+                                            <option value="C#" />
+                                            <option value="Java" />
+                                            <option value="Asp.net/.net core" />
+                                            <option value="Creativity" />
+                                            <option value=" Communication" />
+                                            <option value="Time management" />
+                                            <option value="Teamwork & cooperation" />
+                                            <option value="Analysis" />
+                                            <option value="Testing" />
+                                        </datalist>
+                                    </td>
                                 </tr>
                                 <tr style="height:10px"></tr>
                                 <tr>
@@ -150,37 +261,66 @@
                             <table>
                                 <tr style="height:10px"></tr>
                                 <tr>
-                                    <td>Qualification</td>
+                                    <td class="required">Qualification</td>
                                     <td style="width:50px"></td>
-                                    <td style="width:50px"></td>
-                                    <td>Skills</td>
+                                    <td class="required">Skills</td>
                                 </tr>
                                 <tr>
                                     <td><input type="text" id="qualification" name="Qualification" placeholder="Enter Your Higher Qualification" /></td>
                                     <td style="width:50px"></td>
-                                    <td><input type="text" id="skills" name="Skills" placeholder="Enter Your Skills" /></td>
+                                    <td>
+                                        <input list="Skills" id="skills" name="skills" placeholder="Enter Your Skills">
+                                        <datalist id="Skills">
+                                            <option value="C" />
+                                            <option value="C++" />
+                                            <option value="C#" />
+                                            <option value="Java" />
+                                            <option value="Asp.net/.net core" />
+                                            <option value="Creativity" />
+                                            <option value=" Communication" />
+                                            <option value="Time management" />
+                                            <option value="Teamwork & cooperation" />
+                                            <option value="Analysis" />
+                                            <option value="Testing" />
+                                        </datalist>
                                 </tr>
                                 <tr style="height:10px"></tr>
                                 <tr>
                                     <td>Area Of Interest</td>
                                     <td style="width:50px"></td>
-                                    <td>Experience</td>
+                                    <td class="required">Experience</td>
                                 </tr>
                                 <tr>
                                     <td><input type="text" id="interest" name="Interest" placeholder="Enter Your Area Of Intrests" /></td>
                                     <td style="width:50px"></td>
-                                    <td><input type="text" id="experience" name="Experience" placeholder="Enter Your Job Experience" /></td>
+                                    @*<input type="text" id="experience" name="Experience" placeholder="Enter Your Job Experience" />*@
+                                    <td>
+                                        <input list="Experience" id="experience" name="experience" placeholder="Enter Your Job Experience">
+                                        <datalist id="Experience">
+                                            <option value="Fresher" />
+                                            <option value="Experienced" />
+                                        </datalist>
+                                    </td>
                                 </tr>
                                 <tr style="height:10px"></tr>
                                 <tr>
                                     <td>Past Work Profile</td>
                                     <td style="width:50px"></td>
-                                    <td>Past Work Experience</td>
+                                    <td class="required">Past Work Experience</td>
                                 </tr>
                                 <tr>
                                     <td><input type="text" id="profile" name="WorkProfile" placeholder="Enter Your Past Work Profile" /></td>
                                     <td style="width:50px"></td>
-                                    <td><input type="text" id="workExperience" name="WorkExperience" placeholder="Enter Your Work Experience" /></td>
+                                    <td>
+                                        <input list="WorkExperience" id="workExperience" name="workExperience" placeholder="Enter Your Work Experience">
+                                        <datalist id="WorkExperience">
+                                            <option value=" 0.6 - 1 Yr" />
+                                            <option value="1 - 2 Yr" />
+                                            <option value="3 - 5 Yr" />
+                                            <option value="More than 5 year" />
+                                        </datalist>
+
+                                    </td>
                                 </tr>
                                 <tr style="height:10px"></tr>
 
@@ -202,44 +342,17 @@
         </form>
     </div>
 </div>
+
+<footer>
+    <script src="~/js/site.js"></script>
+</footer>
 @section Scripts{
     <script>
-
-        //function openTrainingModal()
-        //{
-        //    $('#modalTraining').modal('show');
-        //    $("input:radio").attr("checked", false);
-        //}
-
-        //function openInternshipModal(){
-        //    $('#modalIntern').modal('show');
-        //    $("input:radio").attr("checked", false);
-        //}
-
-        //function openJobModal() {
-        //    $('#modalJob').modal('show')
-        //    $("input:radio").attr("checked", false);
-        //}
-        function openDivTraining() {
-            document.getElementById('divTraining').style.display = 'block';
-            document.getElementById('divInternship').style.display = 'none';
-            document.getElementById('divJob').style.display = 'none';
-        }
-
-        function openDivInternship() {
-            document.getElementById('divInternship').style.display = 'block';
-            document.getElementById('divTraining').style.display = 'none';
-            document.getElementById('divJob').style.display = 'none';
-        }
-
-
-        function openDivJob() {
-            document.getElementById('divJob').style.display = 'block';
-            document.getElementById('divInternship').style.display = 'none';
-            document.getElementById('divTraining').style.display = 'none';
-        }
-        function alertshow(){
-            alert("We will let you know thank you for showing your intrest");
-        }
+        $(document).ready(function () {
+            $('.js-example-basic-multiple').select2();
+        });
+        $(".js-example-placeholder-multiple").select2({
+            placeholder: "Select Your Skills"
+        });
     </script>
 }
